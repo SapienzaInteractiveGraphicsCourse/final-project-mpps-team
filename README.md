@@ -1,7 +1,7 @@
 # final-project-mpps-team
 final-project-mpps-team created by GitHub Classroom
 
-# Group members:
+# Group members
 - Matteo Matera
 - Luca Polenta
 - Michela Proietti
