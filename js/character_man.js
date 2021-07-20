@@ -32,7 +32,7 @@ function dumpObject(obj, lines = [], isLast = true, prefix = '') {
 
 function create_man(scene) {
 
-    const gltfLoader = new GLTFLoader();
+    const gltfLoader = new GLTFLoader(MODELS.loadingManager);
     gltfLoader.load('assets/models/level3/girl/scene.gltf', (gltf) => {
       const root = gltf.scene;
        // to apply texture

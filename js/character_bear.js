@@ -40,9 +40,9 @@ function create_bear(scene, night) {
     if(night) luceOrso = 0;
     else luceOrso = 0.5;
 
-    const gltfLoader = new GLTFLoader();
+    const gltfLoader = new GLTFLoader(MODELS.loadingManager);
     //to apply texture
-    const textureLoader = new THREE.TextureLoader();
+    const textureLoader = new THREE.TextureLoader(MODELS.loadingManager);
     const texture = textureLoader.load('assets/models/level2/polar_bear/textures/MAT_BODY_baseColor.png')
     texture.flipY = false;
     gltfLoader.load('assets/models/level2/polar_bear/scene.gltf', (gltf) => {

@@ -30,9 +30,9 @@ function create_bunny(scene, night) {
     if(night) luceBunny = 0;
     else luceBunny = 0.4;
 
-    const gltfLoader = new GLTFLoader();
+    const gltfLoader = new GLTFLoader(MODELS.loadingManager);
     //to apply texture
-    const textureLoader = new THREE.TextureLoader();
+    const textureLoader = new THREE.TextureLoader(MODELS.loadingManager);
     const texture = textureLoader.load('assets/models/level1/bunny/rabbit_final_tex.png')
     texture.flipY = false;
     gltfLoader.load('assets/models/level1/bunny/rabbit_final.gltf', (gltf) => {

@@ -83,7 +83,7 @@ function main() {
   sound_audio2 = new THREE.Audio(sound_listener);
   sound_audio3 = new THREE.Audio(sound_listener);
 
-  var soundLoader = new THREE.AudioLoader();
+  var soundLoader = new THREE.AudioLoader(WORLD.loadingManager);
   soundLoader.load( 'audio/1-06EntertheGalaxy.mp3', function( buffer ) {
     sound_audio.setBuffer(buffer);
     sound_audio.setLoop(true);
@@ -91,14 +91,14 @@ function main() {
     sound_audio.play();
   });
 
-  var soundLoader2 = new THREE.AudioLoader();
+  var soundLoader2 = new THREE.AudioLoader(WORLD.loadingManager);
   soundLoader2.load( 'audio/lose03.mp3', function( buffer ) {
     sound_audio2.setBuffer(buffer);
     sound_audio2.setLoop(false);
     sound_audio2.setVolume(1.0);
   });
 
-  var soundLoader3 = new THREE.AudioLoader();
+  var soundLoader3 = new THREE.AudioLoader(WORLD.loadingManager);
   if(levelToPlay==1){
     soundLoader3.load( 'audio/mixkit-player-jumping-in-a-video-game-2043.wav', function( buffer ) {
       sound_audio3.setBuffer(buffer);

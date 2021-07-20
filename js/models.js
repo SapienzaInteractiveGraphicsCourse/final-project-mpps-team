@@ -15,6 +15,23 @@ export let iceCollisions = [];
 export let ice_start = [];
 export let ice_end = [];
 
+let progress = document.createElement('progress_bar');
+let progressBar = document.createElement('progress_bar');
+progress.appendChild(progressBar);
+document.body.appendChild(progress);
+
+export let loadingManager = new THREE.LoadingManager();
+
+loadingManager.onProgress = function (item, loaded, total) {
+  progressBar.style.width = (loaded / total * 100) + '%';
+  //console.log((loaded / total * 100) + '%');
+};
+loadingManager.onLoad = function ( ) {
+  $("#progress").fadeOut(500);
+  $("#c").fadeIn(500);
+  $("#buttonsArea").fadeIn(500);
+};
+
 // LIGHTS
 export function addLights(scene, night) {
   // hemisphere light
@@ -55,7 +72,7 @@ export function createCylinder(model, level) {
 
   let material;
   if(level==1){ //grass
-    const loader = new THREE.TextureLoader();
+    const loader = new THREE.TextureLoader(loadingManager);
     const texture = loader.load('./assets/textures/grass-texture.jpg');
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
@@ -69,7 +86,7 @@ export function createCylinder(model, level) {
     });
 
   } else if(level==2){  //snow
-    const textureLoader = new THREE.TextureLoader(); //textureManager);
+    const textureLoader = new THREE.TextureLoader(loadingManager);
     material = new THREE.MeshStandardMaterial({color:0x8B8B8B, flatShading:THREE.FlatShading} )
     material.bumpMap = textureLoader.load('./assets/textures/bump1.png');   
     material.bumpScale = 1;
@@ -104,10 +121,10 @@ export function add3DObject(
         vehicle=0,        // if we are adding a car model, then it will be equal to its direction along x
         ice=-1            // 0 if we are on the first slice of ice, 1 if we are on the last one
 ) {
-  const mtlLoader = new MTLLoader();
+  const mtlLoader = new MTLLoader(loadingManager);
   mtlLoader.load(mtlFile, (mtl) => {
     mtl.preload();
-    const objLoader = new OBJLoader();
+    const objLoader = new OBJLoader(loadingManager);
     if (doubleSideBool) mtl.materials.Material.side = THREE.DoubleSide;
     objLoader.setMaterials(mtl);
     objLoader.load(objFile, (root) => {
