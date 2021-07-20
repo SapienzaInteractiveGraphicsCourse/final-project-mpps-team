@@ -88,7 +88,7 @@ function animate(scene, hModel){
   let dx_lateral_shift;
   let sx_lateral_shift;
 
-  if(!checkAnimating){
+  if(!checkAnimating && MODELS.permessoPerMuoversi){
     if(go_up) {
       bunny_score += 1;
       document.getElementById("score").innerHTML = "score: " + bunny_score;

@@ -4,6 +4,8 @@ import {MTLLoader} from 'https://threejs.org/examples/jsm/loaders/MTLLoader.js';
 
 import * as OBJECTS from './objects.js'
 
+export let permessoPerMuoversi = false;
+
 export let cars_ltr = [];
 export let cars_rtl = [];
 export let cars = [];
@@ -21,15 +23,15 @@ progress.appendChild(progressBar);
 document.body.appendChild(progress);
 
 export let loadingManager = new THREE.LoadingManager();
-
-loadingManager.onProgress = function (item, loaded, total) {
-  progressBar.style.width = (loaded / total * 100) + '%';
+//loadingManager.onProgress = function (item, loaded, total) {
+  //progressBar.style.width = (loaded / total * 100) + '%';
   //console.log((loaded / total * 100) + '%');
-};
+//};
 loadingManager.onLoad = function ( ) {
-  $("#progress").fadeOut(500);
-  $("#c").fadeIn(500);
-  $("#buttonsArea").fadeIn(500);
+  $("#progress").hide();
+  $("#c").fadeIn(1000);
+  $("#buttonsArea").fadeIn(1000);
+  permessoPerMuoversi = true;
 };
 
 // LIGHTS

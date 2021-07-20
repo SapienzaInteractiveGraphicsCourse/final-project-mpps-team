@@ -1,6 +1,5 @@
 import * as THREE from 'https://threejs.org/build/three.module.js';
 import {GLTFLoader} from 'https://threejs.org/examples/jsm/loaders/GLTFLoader.js';
-import { check_collisions } from './cars.js';
 
 import * as MODELS from './models.js';
 import * as GAME from './game.js'
@@ -89,7 +88,7 @@ function create_man(scene) {
 let mov, mov_sx, mov_dx; // needed to clean the interval when ypu want to stop the movement
 
 function animate(hModel){
-  if(!checkAnimating) {
+  if(!checkAnimating && MODELS.permessoPerMuoversi) {
     if(go_left && start) {
       checkAnimating = true;
       mov_sx = setInterval(function(){slide_left(hModel, mov_sx)}, 20);
@@ -99,7 +98,7 @@ function animate(hModel){
       mov_dx = setInterval(function(){slide_right(hModel, mov_dx)}, 20);
       hero_position.x += 2.2;
     } else if(start && !go_left && !go_right) {
-      mov = setInterval(function(){go_straight(hModel)}, 90);
+      mov = setInterval(function(){go_straight(hModel)}, 75);
     }
   }
 

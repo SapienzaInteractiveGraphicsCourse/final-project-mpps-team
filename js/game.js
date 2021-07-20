@@ -87,7 +87,7 @@ function main() {
   soundLoader.load( 'audio/1-06EntertheGalaxy.mp3', function( buffer ) {
     sound_audio.setBuffer(buffer);
     sound_audio.setLoop(true);
-    sound_audio.setVolume( 1.0 );
+    sound_audio.setVolume(1.0);
     sound_audio.play();
   });
 
@@ -122,7 +122,7 @@ function main() {
 
     if (CARS.dead_hero) setInterval(function(){y_target += 0.4; move_camera_up(controls, y_target);}, 15);
     if (levelToPlay == 2 && CHARACTER_bear.dead_bear) setInterval(function(){y_target += 0.4; move_camera_up(controls, y_target);}, 15);
-    else if (levelToPlay == 3 && CHARACTER_man.dead_baby) setInterval(function(){y_target += 0.4; move_camera_up(controls, y_target);}, 15);
+    else if (levelToPlay == 3 && CHARACTER_man.dead_baby) setInterval(function(){y_target += 0.4; move_camera_up(controls, y_target);}, 25);
 
     CARS.animate_cars();
     CARS.check_collisions(levelToPlay);

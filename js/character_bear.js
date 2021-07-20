@@ -3,7 +3,6 @@ import {GLTFLoader} from 'https://threejs.org/examples/jsm/loaders/GLTFLoader.js
 
 import * as MODELS from './models.js';
 import * as GAME from './game.js';
-import * as CARS from './cars.js';
 
 export let go_left, go_right, go_up, go_down;
 let stand_up=0; // needed in order to make the bear stand up again when the iced lake is finished.
@@ -102,7 +101,7 @@ let mov2, mov3, mov4;
 
 function animate(hModel){
 
-  if(!checkAnimating){
+  if(!checkAnimating && MODELS.permessoPerMuoversi){
     check_collision_ice();
     if (go_down && !go_left && !go_right) {
       body.position.y = -55;
