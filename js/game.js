@@ -22,9 +22,15 @@ export let levelToPlay=1;
 export let id;
 export let sound_audio, sound_audio2, sound_audio3;
 export let controls, camera;
+export let permessoPerMuoversi;
 let y_target = 105;
 
+export function changePermesso(){
+  permessoPerMuoversi = true;
+}
+
 function main() {
+  permessoPerMuoversi = false;
   // Reading Local Storage
   if(sessionStorage.getItem("dayOrNight")=="true") night=true;
 

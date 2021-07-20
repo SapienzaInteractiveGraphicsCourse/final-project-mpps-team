@@ -101,7 +101,7 @@ let mov2, mov3, mov4;
 
 function animate(hModel){
 
-  if(!checkAnimating && MODELS.permessoPerMuoversi){
+  if(!checkAnimating){
     check_collision_ice();
     if (go_down && !go_left && !go_right) {
       body.position.y = -55;
@@ -332,36 +332,38 @@ export function initialize_bear(scene, hModel, night){
     window.addEventListener("keydown", letsMove, false);
 
     function letsMove(event) {
-      if((event.keyCode === 37|| event.keyCode === 65) && body.position.x < 1480 && !dead_bear) {  //arrow left or 'a' or 'A'
-        check_collisions_obstacles_around(-1);
-        if(!checkAnimating && move){
-          go_left = true;
-          if(!go_down){
-            GAME.sound_audio3.play();
+      if(GAME.permessoPerMuoversi){
+        if((event.keyCode === 37|| event.keyCode === 65) && body.position.x < 1480 && !dead_bear) {  //arrow left or 'a' or 'A'
+          check_collisions_obstacles_around(-1);
+          if(!checkAnimating && move){
+            go_left = true;
+            if(!go_down){
+              GAME.sound_audio3.play();
+            }
           }
         }
-      }
-      else if((event.keyCode === 38 || event.keyCode === 87) && !dead_bear) { //arrow up or 'w' or 'W'
-        check_collisions_obstacles_front();
-        if(!checkAnimating && move){
-          go_up = true;
-          if(!go_down){
-            bear_score += 1;
-            document.getElementById("score").innerHTML = "score: " + bear_score;
-            GAME.sound_audio3.play();
-          }          
-        }
-      }
-      else if ((event.keyCode === 39 || event.keyCode === 68) && body.position.x > -1480 && !dead_bear) { //arrow right or 'd' or 'D'
-        check_collisions_obstacles_around(1);
-        if(!checkAnimating && move){
-          go_right = true;
-          if(!go_down){
-            GAME.sound_audio3.play();
+        else if((event.keyCode === 38 || event.keyCode === 87) && !dead_bear) { //arrow up or 'w' or 'W'
+          check_collisions_obstacles_front();
+          if(!checkAnimating && move){
+            go_up = true;
+            if(!go_down){
+              bear_score += 1;
+              document.getElementById("score").innerHTML = "score: " + bear_score;
+              GAME.sound_audio3.play();
+            }          
           }
         }
+        else if ((event.keyCode === 39 || event.keyCode === 68) && body.position.x > -1480 && !dead_bear) { //arrow right or 'd' or 'D'
+          check_collisions_obstacles_around(1);
+          if(!checkAnimating && move){
+            go_right = true;
+            if(!go_down){
+              GAME.sound_audio3.play();
+            }
+          }
+        }
+        animate(hModel);  //scene
       }
-      animate(hModel);  //scene
     }
 
 

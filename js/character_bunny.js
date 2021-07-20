@@ -88,7 +88,7 @@ function animate(scene, hModel){
   let dx_lateral_shift;
   let sx_lateral_shift;
 
-  if(!checkAnimating && MODELS.permessoPerMuoversi){
+  if(!checkAnimating){
     if(go_up) {
       bunny_score += 1;
       document.getElementById("score").innerHTML = "score: " + bunny_score;
@@ -378,7 +378,8 @@ export function initialize_bunny(scene, hModel, night){
     window.addEventListener("keydown", letsMove, false);
 
     function letsMove(event) {
-      if((event.keyCode === 37|| event.keyCode === 65) && body.position.x < 37) {  // arrow left or 'a' or 'A'
+      if(GAME.permessoPerMuoversi){
+        if((event.keyCode === 37|| event.keyCode === 65) && body.position.x < 37) {  // arrow left or 'a' or 'A'
           check_collisions_obstacles_around(-1);
           if(!checkAnimating && move){
             go_left = true;
@@ -400,5 +401,6 @@ export function initialize_bunny(scene, hModel, night){
           }
         }
         animate(scene, hModel);
+      }
     }
 }

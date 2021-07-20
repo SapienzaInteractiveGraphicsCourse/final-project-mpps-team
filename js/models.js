@@ -3,8 +3,7 @@ import {OBJLoader} from 'https://threejs.org/examples/jsm/loaders/OBJLoader.js';
 import {MTLLoader} from 'https://threejs.org/examples/jsm/loaders/MTLLoader.js';
 
 import * as OBJECTS from './objects.js'
-
-export let permessoPerMuoversi = false;
+import * as GAME from './game.js'
 
 export let cars_ltr = [];
 export let cars_rtl = [];
@@ -29,9 +28,9 @@ export let loadingManager = new THREE.LoadingManager();
 //};
 loadingManager.onLoad = function ( ) {
   $("#progress").hide();
+  GAME.changePermesso();
   $("#c").fadeIn(1000);
   $("#buttonsArea").fadeIn(1000);
-  permessoPerMuoversi = true;
 };
 
 // LIGHTS

@@ -88,7 +88,7 @@ function create_man(scene) {
 let mov, mov_sx, mov_dx; // needed to clean the interval when ypu want to stop the movement
 
 function animate(hModel){
-  if(!checkAnimating && MODELS.permessoPerMuoversi) {
+  if(!checkAnimating && GAME.permessoPerMuoversi) {
     if(go_left && start) {
       checkAnimating = true;
       mov_sx = setInterval(function(){slide_left(hModel, mov_sx)}, 20);
@@ -177,21 +177,23 @@ export function initialize_man(scene, hModel){
     start = false;
 
     function letsMove(event) {
-      if((event.keyCode === 37|| event.keyCode === 65) && body.position.x < 22 && start) { 
-        if(!checkAnimating){
-          go_left = true;
+      if(GAME.permessoPerMuoversi){
+        if((event.keyCode === 37|| event.keyCode === 65) && body.position.x < 22 && start) { 
+          if(!checkAnimating){
+            go_left = true;
+            animate(hModel); 
+          }
+        }
+        else if ((event.keyCode === 39 || event.keyCode === 68) && body.position.x > -22 && start) {  
+          if(!checkAnimating){
+            go_right = true;
+            animate(hModel); 
+          }
+        }
+        else if ((event.keyCode === 38 || event.keyCode === 87) && !start){
+          start = true;
           animate(hModel); 
         }
-      }
-      else if ((event.keyCode === 39 || event.keyCode === 68) && body.position.x > -22 && start) {  
-        if(!checkAnimating){
-          go_right = true;
-          animate(hModel); 
-        }
-      }
-      else if ((event.keyCode === 38 || event.keyCode === 87) && !start){
-        start = true;
-        animate(hModel); 
       }
     }
 }
