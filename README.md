@@ -7,4 +7,4 @@ final-project-mpps-team created by GitHub Classroom
 - Michela Proietti
 - Sofia Santilli
 
-https://sapienzainteractivegraphicscourse.github.io/final-project-mpps-team/
+https://sapienzainteractivegraphicscourse.github.io/final-project-mpps-team/main.html
