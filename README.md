@@ -18,7 +18,7 @@ The proposed project is a re-implementation of the famous "Crossy Road" game. It
 
 ### Report
 
-For further details, the report of the project is available in this repository at [this link](https://sapienzainteractivegraphicscourse.github.io/final-project-mpps-team/report.pdf).
+For further details, the report of the project is available in this repository at [this link](https://sapienzainteractivegraphicscourse.github.io/final-project-mpps-team/IG_Report.pdf).
 
 ## Group members
 - Matteo Matera 1795339
