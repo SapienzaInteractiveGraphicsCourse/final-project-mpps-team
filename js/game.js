@@ -16,6 +16,8 @@ $(document).ready(function() {
   $("#restart").click(function(){
       location.reload()
   });
+
+  sessionStorage.setItem('passaggioScore', 'score: 0');
 });
 
 export let night = false;

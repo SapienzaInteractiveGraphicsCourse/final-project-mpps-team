@@ -52,8 +52,9 @@ function move_camera_up(controls, y) {
   controls.target.set(0, y, 0);
   controls.update();
   if (y > 125 && !done) {
-    location.href = './gameover.html';
+    sessionStorage.setItem('passaggioScore', document.getElementById("score").innerHTML);
     done = true;
+    location.href = './gameover.html';
   }
 }
 

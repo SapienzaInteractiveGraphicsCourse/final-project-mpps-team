@@ -10,7 +10,7 @@ div.central-area {
 }
 
 div.buttons-area {
-  margin-top: 200px;
+  margin-top: 160px;
 }
 
 #back, #restart {
@@ -30,4 +30,10 @@ div.buttons-area {
 #restart {
   border: 2px solid green;
   background: lightgreen;
+}
+div.central-score{
+  margin-top: 30px;
+  font-family: monospace;
+  font-size: 50px;
+  color: white;
 }

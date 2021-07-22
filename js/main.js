@@ -1,3 +1,4 @@
+sessionStorage.setItem('passaggioScore', 'score: 0');
 sessionStorage.setItem('dayOrNight', 'false');
 
 $(document).ready(function() {

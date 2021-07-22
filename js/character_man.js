@@ -294,7 +294,7 @@ export function check_coins_collisions(direction) {
 
     let distx = 4;
 
-    if(pos.z >= -20 && pos.z < 14 && pos.y > 0 && ((direction == -1 && pos.x <= hero_position.x) || (direction == 1 && pos.x >= hero_position.x))){
+    if(pos.z >= -20 && pos.z < 3 && pos.y > 0 && ((direction == -1 && pos.x <= hero_position.x) || (direction == 1 && pos.x >= hero_position.x))){
       let distance = Math.sqrt(Math.pow(hero_position.x-pos.x, 2) + Math.pow(pos.z, 2));
       
       if(coin.visible && distance <= 4 && !dead_baby){
@@ -306,7 +306,7 @@ export function check_coins_collisions(direction) {
       }
     }
 
-    if (pos.z >= -24 && pos.z < 14 && pos.y > 0 && direction == 0 && hero_position.x < pos.x + distx && hero_position.x > pos.x - distx) {
+    if (pos.z >= -14 && pos.z < 3 && pos.y > 0 && direction == 0 && hero_position.x < pos.x + distx && hero_position.x > pos.x - distx) {
       let distancez = Math.abs(pos.z);
       
       if(coin.visible && distancez <= 5 && !dead_baby){
