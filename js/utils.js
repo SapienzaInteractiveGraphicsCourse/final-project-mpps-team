@@ -56,3 +56,10 @@ function move_camera_up(controls, y) {
     done = true;
   }
 }
+
+function animate_coins(coinsCollisions) {
+  for (let coin of coinsCollisions) {
+    coin.rotation.y += 0.1;
+    if (coin.rotation.y == 360) coin.rotation.y = 0.1;
+  }
+}

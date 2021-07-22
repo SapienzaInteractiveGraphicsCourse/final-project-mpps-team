@@ -2,6 +2,7 @@ import * as THREE from 'https://threejsfundamentals.org/threejs/resources/threej
 import {OrbitControls} from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/controls/OrbitControls.js';
 
 import * as WORLD from './models.js'
+import * as OBJECTS from './objects.js'
 import * as CARS from './cars.js'
 
 import * as CHARACTER_bunny from './character_bunny.js'
@@ -133,6 +134,8 @@ function main() {
     CARS.animate_cars();
     CARS.check_collisions(levelToPlay);
 
+    animate_coins(WORLD.coinsCollisions);
+
     if (levelToPlay == 2) {
       if (CHARACTER_bear.go_down && !CHARACTER_bear.go_left && !CHARACTER_bear.go_right) CHARACTER_bear.check_collisions_onice(0);
       else if (CHARACTER_bear.go_down && CHARACTER_bear.go_left) CHARACTER_bear.check_collisions_onice(-1);
@@ -142,6 +145,10 @@ function main() {
       else if (CHARACTER_man.start && CHARACTER_man.go_left) CHARACTER_man.check_collisions_around(-1);
       else if (CHARACTER_man.start && CHARACTER_man.go_right) CHARACTER_man.check_collisions_around(1);
     }
+
+    if (levelToPlay == 1 && CHARACTER_bunny.coin_collision) OBJECTS.generate_new_coin(scene, hModel);
+    else if (levelToPlay == 2 && CHARACTER_bear.coin_collision) OBJECTS.generate_new_coin(scene, hModel);
+    else if (levelToPlay == 3 && CHARACTER_man.coin_collision) OBJECTS.generate_new_coin(scene, hModel);
 
     renderer.render(scene, camera);
 

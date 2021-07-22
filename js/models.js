@@ -12,6 +12,7 @@ export let cars = [];
 export let bigObstaclesCollision = [];
 export let smallObstaclesCollision = [];
 export let iceCollisions = [];
+export let coinsCollisions = [];
 
 export let ice_start = [];
 export let ice_end = [];
@@ -108,19 +109,19 @@ export function createCylinder(model, level) {
 
 
 export function add3DObject(
-        scene,            // scene
-        model,            // hierarchical model
-        name,             // name of the object
-        mtlFile,          // file .mtl
-        objFile,          // file .obj
-        position,         // position in 3D space (3 elements array)
-        rotation,         // orientation (3 elements array)
-        scale,            // scale (3 elements array)
-        doubleSideBool,   // true/false to put double side material
-        hModelBool,       // true if the object in the hierachical model, false otherwise
-        obstacle=0,       // 1 if it is an obstacle
-        vehicle=0,        // if we are adding a car model, then it will be equal to its direction along x
-        ice=-1            // 0 if we are on the first slice of ice, 1 if we are on the last one
+  scene,            // scene
+  model,            // hierarchical model
+  name,             // name of the object
+  mtlFile,          // file .mtl
+  objFile,          // file .obj
+  position,         // position in 3D space (3 elements array)
+  rotation,         // orientation (3 elements array)
+  scale,            // scale (3 elements array)
+  doubleSideBool,   // true/false to put double side material
+  hModelBool,       // true if the object in the hierachical model, false otherwise
+  obstacle=0,       // 1 if it is an obstacle
+  vehicle=0,        // if we are adding a car model, then it will be equal to its direction along x
+  ice=-1            // 0 if we are on the first slice of ice, 1 if we are on the last one
 ) {
   const mtlLoader = new MTLLoader(loadingManager);
   mtlLoader.load(mtlFile, (mtl) => {
@@ -144,6 +145,7 @@ export function add3DObject(
       if (obstacle == 1) smallObstaclesCollision.push(root);
       else if (obstacle == 2) bigObstaclesCollision.push(root);
       else if (obstacle == 3) iceCollisions.push(root);
+      else if (obstacle == 4) coinsCollisions.push(root);
       if (hModelBool) model.add(root);
       if (!hModelBool) scene.add(root);
       if (ice == 0) ice_start.push(root);
@@ -164,11 +166,14 @@ function createHierarchicalModel(model, level){
   vehiclesModel.name = "vehiclesModel";
   var edgesModel = new THREE.Group();
   edgesModel.name = "edgesModel";
+  var coinsModel = new THREE.Group();
+  coinsModel.name = "coinsModel";
   model.add(smallObstaclesModel);
   model.add(bigObstaclesModel);
   model.add(roadsModel);
   model.add(vehiclesModel);
   model.add(edgesModel);
+  model.add(coinsModel);
 
   //Trees
   if(level==1){  //easy
@@ -415,6 +420,11 @@ function createHierarchicalModel(model, level){
     vehicle_Slime.name = "vehicle_Slime";
     vehiclesModel.add(vehicle_Slime);
   }
+
+  // coins
+  var vehicle_Slime = new THREE.Group();
+  vehicle_Slime.name = "vehicle_Slime";
+  vehiclesModel.add(vehicle_Slime);
 
 }
 

@@ -17,7 +17,7 @@ function checkGenerationCollision(x, y, z){
   return checkSmallObstacles && checkRoads && checkBuilding;
 }
 
-export function add_all_objects_in_world(scene, model, level){ {
+export function add_all_objects_in_world(scene, model, level){ 
   // number of segments large enough to contain three roads joined side by side: 48
   // maximum number of streets per segment: 3 (to be changed according to the level)
   const locations = getRandomRoadLocations(48, 3);
@@ -52,12 +52,20 @@ export function add_all_objects_in_world(scene, model, level){ {
         placeEdge(scene, model, deg+4.0, 0, level);
         placeEdge(scene, model, deg+6.0, 0, level);
 
-        placeRandomSmallObstacle(scene, model, deg, level);
-        placeRandomBigObstacle(scene, model, deg, level, ice_bool);
-        placeRandomSmallObstacle(scene, model, deg+2.5, level);
-        placeRandomSmallObstacle(scene, model, deg+5.0, level);
-        placeRandomBigObstacle(scene, model, deg+5.0, level, ice_bool);
-  
+        if (level != 3) {
+          placeRandomSmallObstacle(scene, model, deg, level);
+          placeRandomBigObstacle(scene, model, deg, level, ice_bool);
+          placeRandomSmallObstacle(scene, model, deg+2.5, level);
+          placeRandomSmallObstacle(scene, model, deg+5.0, level);
+          placeRandomBigObstacle(scene, model, deg+5.0, level, ice_bool);
+        } else {
+          placeRandomSmallObstacle(scene, model, deg, level);
+          placeRandomBigObstacle(scene, model, deg, level, ice_bool);
+          placeRandomSmallObstacle(scene, model, deg+2.5, level);
+        }
+
+        placeCoin(scene, model, deg);
+
       }else if(exist==1){
         // Check for no roads to appear right after the ice
         if(level==2 && (i==0 || i==39 || i==25 || i==11)) {
@@ -542,4 +550,52 @@ function placeRandomVehicle(scene, model, deg, orientation, level, numberOfCycle
   }
 }
 
+function placeCoin(scene, model, deg) {
+  const r = 100;
+  const radians = 57.2958;
+  let x = getRandomInt(-24, 24);
+  let theta = deg / radians;
+  let y = r * Math.cos(theta);
+  let z = r * Math.sin(theta);
+
+  let path, scale;
+
+  while (!checkGenerationCollision(x, y, z)) x = getRandomInt(-24, 24);
+
+  path = 'assets/models/coin/';
+
+  scale = [3.0, 3.0, 3.0];
+
+  // left wall
+  WORLD.add3DObject(
+    scene,
+    model.getObjectByName("coinsModel"),
+    'coin',
+    path + 'coin.mtl',
+    path + 'coin.obj',
+    [x, y, z],
+    [theta, 0.0, 0.0],
+    scale,
+    false,
+    true,
+    4,
+    0,
+    -1
+  );
+}
+
+export function generate_new_coin(scene, model) {
+  // initially we generate a new coin when we collect one, but then in order to not have
+  // a huge array, we simply make the ones we had generated before visible again
+  if (WORLD.coinsCollisions.length < 10) {
+    let deg = getRandomInt(0, 27);
+    placeCoin(scene, model, deg);
+  } else {
+    for (let coin of WORLD.coinsCollisions) {
+      if (!coin.visible) {
+        coin.visible = true;
+        break;
+      }
+    }
+  }
 }

@@ -11,10 +11,12 @@ let checkAnimating;  //boolean: if true, it means that there is already a moveme
                     // to end in order to click again.
 export let hero_position = {x: 0, y: 100, z: 0};
 export let dead_baby = false;
+export let coin_collision = false;
+export let baby_score = 0;
 
 let body;
 let upperArm_L, upperArm_R, lowerArm_L, lowerArm_R;
-let upperLeg_L, upperLeg_R; // NOT USED: lowerLeg_L, lowerLeg_R;
+let upperLeg_L, upperLeg_R;
 
 // function needed to represent the hierarchical structure of the hero/main character
 function dumpObject(obj, lines = [], isLast = true, prefix = '') {
@@ -37,7 +39,6 @@ function create_man(scene) {
        // to apply texture
       root.traverse ( ( o ) => {
         if (o.isMesh ) {
-          //o.material = new THREE.MeshBasicMaterial({map: texture});
           o.material.skinning = true;
           o.receiveShadow = true
           o.castShadow = true;
@@ -62,9 +63,7 @@ function create_man(scene) {
       body = root.getObjectByName('RootNode');
 
       upperLeg_L = root.getObjectByName('thighL_016');
-      //lowerLeg_L = root.getObjectByName('shinL_017'); // NOT USED
       upperLeg_R = root.getObjectByName('thighR_021');
-      //lowerLeg_R = root.getObjectByName('shinR_022'); // NOT USED
 
       upperArm_L = root.getObjectByName('upper_armL_07');
       lowerArm_L = root.getObjectByName('forearmL_08');      
@@ -90,21 +89,31 @@ let mov, mov_sx, mov_dx; // needed to clean the interval when ypu want to stop t
 function animate(hModel){
   if(!checkAnimating && GAME.permessoPerMuoversi) {
     if(go_left && start) {
+      baby_score += 1;
+      document.getElementById("score").innerHTML = "score: " + baby_score;
       checkAnimating = true;
       mov_sx = setInterval(function(){slide_left(hModel, mov_sx)}, 20);
       hero_position.x -= 2.2;
+      check_coins_collisions(-1);
     } else if(go_right && start) {
+      baby_score += 1;
+      document.getElementById("score").innerHTML = "score: " + baby_score;
       checkAnimating = true;
       mov_dx = setInterval(function(){slide_right(hModel, mov_dx)}, 20);
       hero_position.x += 2.2;
+      check_coins_collisions(1);
     } else if(start && !go_left && !go_right) {
+      baby_score += 1;
+      document.getElementById("score").innerHTML = "score: " + baby_score;
       mov = setInterval(function(){go_straight(hModel)}, 75);
+      check_coins_collisions(0);
     }
   }
 
 }
 
 function go_straight(hModel){
+  check_coins_collisions(0);
   hModel.rotation.x += 0.008865;
 }
 
@@ -178,19 +187,22 @@ export function initialize_man(scene, hModel){
 
     function letsMove(event) {
       if(GAME.permessoPerMuoversi){
-        if((event.keyCode === 37|| event.keyCode === 65) && body.position.x < 22 && start) { 
+        if((event.keyCode === 37|| event.keyCode === 65) && body.position.x < 22 && start) {
+          check_coins_collisions(1);
           if(!checkAnimating){
             go_left = true;
             animate(hModel); 
           }
         }
-        else if ((event.keyCode === 39 || event.keyCode === 68) && body.position.x > -22 && start) {  
+        else if ((event.keyCode === 39 || event.keyCode === 68) && body.position.x > -22 && start) {
+          check_coins_collisions(-1);
           if(!checkAnimating){
             go_right = true;
             animate(hModel); 
           }
         }
         else if ((event.keyCode === 38 || event.keyCode === 87) && !start){
+          check_coins_collisions(0);
           start = true;
           animate(hModel); 
         }
@@ -199,6 +211,7 @@ export function initialize_man(scene, hModel){
 }
 
 export function check_collisions_around(direction) {
+  coin_collision = false;
   let pos = new THREE.Vector3();
 
   MODELS.smallObstaclesCollision.forEach(function (element, index) {
@@ -256,6 +269,8 @@ export function check_collisions_around(direction) {
       }
     }
 
+    if (bigObs.name == 'gravestone') distx = 2;
+
     if (pos.z >= -14 && pos.z < 0 && pos.y > 0 && direction == 0 && hero_position.x < pos.x + distx && hero_position.x > pos.x - distx) {
       let distance = Math.abs(hero_position.x-pos.x) + Math.abs(pos.z);
       if(distance <= 1.5 && !dead_baby){
@@ -263,6 +278,41 @@ export function check_collisions_around(direction) {
         GAME.sound_audio.stop();
         GAME.sound_audio2.play();
         dead_baby = true;
+      }
+    }
+  });
+}
+
+export function check_coins_collisions(direction) {
+  coin_collision = false;
+  let pos = new THREE.Vector3();
+
+
+  MODELS.coinsCollisions.forEach(function (element, index) {
+    let coin = MODELS.coinsCollisions[index];
+    pos.setFromMatrixPosition(coin.matrixWorld);
+
+    let distx = 4;
+
+    if(pos.z >= -20 && pos.z < 14 && pos.y > 0 && ((direction == -1 && pos.x <= hero_position.x) || (direction == 1 && pos.x >= hero_position.x))){
+      let distance = Math.sqrt(Math.pow(hero_position.x-pos.x, 2) + Math.pow(pos.z, 2));
+      
+      if(coin.visible && distance <= 4 && !dead_baby){
+        coin.visible = false;
+        coin_collision = true;
+        baby_score += 10;
+        document.getElementById("score").innerHTML = "score: " + baby_score;
+      }
+    }
+
+    if (pos.z >= -24 && pos.z < 14 && pos.y > 0 && direction == 0 && hero_position.x < pos.x + distx && hero_position.x > pos.x - distx) {
+      let distancez = Math.abs(pos.z);
+      
+      if(coin.visible && distancez <= 5 && !dead_baby){
+        coin.visible = false;
+        coin_collision = true;
+        baby_score += 10;
+        document.getElementById("score").innerHTML = "score: " + baby_score;
       }
     }
   });

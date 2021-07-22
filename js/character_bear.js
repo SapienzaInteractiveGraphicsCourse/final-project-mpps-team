@@ -16,9 +16,9 @@ export let hero_position = {x: 0, y: 100, z: 0};
 export let bear_score = 0;
 
 export let dead_bear = false;
+export let coin_collision = false;
 
 let body, anterior_legL, anterior_legR, posterior_legL, posterior_legR;
-// NOT USED: let anterior_legL_sub, anterior_legR_sub, posterior_legL_sub, posterior_legR_sub;
 
 // function needed to represent the hierarchical structure of the hero/main character
 function dumpObject(obj, lines = [], isLast = true, prefix = '') {
@@ -79,20 +79,12 @@ function create_bear(scene, night) {
       //anterior right leg
       anterior_legR = root.getObjectByName('front_thighR_017');
       anterior_legL.rotation.x += Math.PI/8;  // I do that xk in the 3D model it is not straight allineated as the other legs
-      // part below the anterior left leg
-      //anterior_legL_sub = root.getObjectByName('front_shinL_013'); // NOT USED
-      // part below the anterior right leg
-      //anterior_legR_sub = root.getObjectByName('front_thighL_012'); // NOT USED
 
       //posterior left leg
       posterior_legL = root.getObjectByName('thighL_025');
       //posterior right leg
       posterior_legR = root.getObjectByName('thighR_029');
       posterior_legR.rotation.x -= Math.PI/8; // I do that xk in the 3D model it is not straight allineated as the other legs
-      // part below the posterior left leg
-      //posterior_legL_sub = root.getObjectByName('shinL_026'); // NOT USED
-      // part below the posterior right leg
-      //posterior_legR_sub = root.getObjectByName('shinR_030'); // NOT USED
     });
 }
 
@@ -139,17 +131,25 @@ function animate(hModel){
     }else if(go_up && !go_down) {
       body.rotation.y = 0;
       checkAnimating = true;
-      mov = setInterval(function(){move_up(mov, hModel); }, 12);
+      check_collisions_obstacles_front();
+      if (move)
+        mov = setInterval(function(){move_up(mov, hModel); }, 12);
     } else if(go_left && !go_down){
       checkAnimating = true;
       body.rotation.y  = -80;
-      mov_sx = setInterval(function(){move_left(mov_sx)}, 12);
-      hero_position.x -= 2.2;
+      check_collisions_obstacles_around(-1);
+      if (move) {
+        mov_sx = setInterval(function(){move_left(mov_sx)}, 12);
+        hero_position.x -= 2.2;
+      }
     } else if(go_right && !go_down){
       checkAnimating = true;
       body.rotation.y  = 80;
-      mov_dx = setInterval(function(){move_right(mov_dx)}, 12);
-      hero_position.x += 2.2;
+      check_collisions_obstacles_around(1);
+      if (move) {
+        mov_dx = setInterval(function(){move_right(mov_dx)}, 12);
+        hero_position.x += 2.2;
+      }
     }
   }
 }
@@ -400,6 +400,7 @@ function check_collision_ice() {
 // it cannot walk on it
 function check_collisions_obstacles_front() {
   move = true;
+  coin_collision = false;
 
   let pos = new THREE.Vector3();
   let distx = 2.5;
@@ -443,12 +444,34 @@ function check_collisions_obstacles_front() {
         }
     }
   });
+
+  MODELS.coinsCollisions.forEach(function (element, index) {
+    let coin = MODELS.coinsCollisions[index];
+    pos.setFromMatrixPosition(coin.matrixWorld);
+
+    let distx = 2;
+
+    if(pos.z >= -14 && pos.z < -2.5 && pos.y > 0 && hero_position.x <= pos.x + distx && hero_position.x >= pos.x - distx){ // check just for cars that are in the next slice, up to 7.5 deg (hero.position.z = 0 always)
+        let distance = Math.sqrt(Math.pow(pos.z, 2));
+        console.log("BEAR = ", hero_position);
+        console.log("COIN = ", pos);
+        console.log("DISTANCE = ", distance);
+        if(coin.visible && distance <= 6){
+          coin.visible = false;
+          console.log(coin.visible);
+          coin_collision = true;
+          bear_score += 10;
+          document.getElementById("score").innerHTML = "score: " + bear_score;
+        }
+    }
+  });
 }
 
 // It checks whether there are obstacles on the right or left side of the hero.
 // We check this only in the direction in which the hero is moving.
 function check_collisions_obstacles_around(direction) {
   move = true;
+  coin_collision = false;
 
   let pos = new THREE.Vector3();
   let distx;
@@ -490,6 +513,25 @@ function check_collisions_obstacles_around(direction) {
       let distance = Math.sqrt(Math.pow(hero_position.x-pos.x, 2));
       if(distance <= distx){
         move = false;
+      }
+    }
+  });
+
+  MODELS.coinsCollisions.forEach(function (element, index) {
+    let coin = MODELS.coinsCollisions[index];
+    pos.setFromMatrixPosition(coin.matrixWorld);
+
+    let distz = 2;
+    let distx = 5.5;
+
+    if(pos.z >= -distz && pos.z < distz && pos.y > 0 && ((direction == -1 && pos.x < hero_position.x) || (direction == 1 && pos.x > hero_position.x))){ // check just for cars that are in the next slice, up to 7.5 deg (hero.position.z = 0 always)
+      let distance = Math.sqrt(Math.pow(hero_position.x-pos.x, 2));
+      if(coin.visible && distance <= distx){
+          coin.visible = false;
+          console.log(coin.visible);
+          coin_collision = true;
+          bear_score += 10;
+          document.getElementById("score").innerHTML = "score: " + bear_score;
       }
     }
   });

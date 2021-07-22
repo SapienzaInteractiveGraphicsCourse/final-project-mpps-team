@@ -2,6 +2,7 @@ import * as THREE from 'https://threejs.org/build/three.module.js';
 import {GLTFLoader} from 'https://threejs.org/examples/jsm/loaders/GLTFLoader.js';
 
 import * as MODELS from './models.js';
+import * as OBJECTS from './objects.js'
 import * as GAME from './game.js'
 
 let body, hip, spine, legL, legR, armL, armR, EarL, EarR;
@@ -10,6 +11,7 @@ let up_dir = true;
 let move = true;
 export let hero_position = {x: 0, y: 100.93, z: 0};
 export let bunny_score = 0;
+export let coin_collision = false;
 
 // function needed to represent the hierarchical structure of the hero/main character
 function dumpObject(obj, lines = [], isLast = true, prefix = '') {
@@ -276,6 +278,7 @@ function move_up(frontal_shift, shift_relative_to_world, mov, scene, hModel){
 
 function check_collisions_obstacles_front() {
   move = true;
+  coin_collision = false;
 
   let pos = new THREE.Vector3();
 
@@ -315,10 +318,28 @@ function check_collisions_obstacles_front() {
         }
     }
   });
+
+  MODELS.coinsCollisions.forEach(function (element, index) {
+    let coin = MODELS.coinsCollisions[index];
+    pos.setFromMatrixPosition(coin.matrixWorld);
+
+    let distx = 1;
+
+    if(pos.z >= -14 && pos.z < -2.5 && pos.y > 0 && hero_position.x <= pos.x + distx && hero_position.x >= pos.x - distx){ // check just for cars that are in the next slice, up to 7.5 deg (hero.position.z = 0 always)
+        let distance = Math.sqrt(Math.pow(pos.z, 2));
+        if(coin.visible && distance <= 5){
+          coin.visible = false;
+          coin_collision = true;
+          bunny_score += 10;
+          document.getElementById("score").innerHTML = "score: " + bunny_score;
+        }
+    }
+  });
 }
 
 function check_collisions_obstacles_around(direction) {
   move = true;
+  coin_collision = false;
 
   let pos = new THREE.Vector3();
   let dis;
@@ -359,7 +380,26 @@ function check_collisions_obstacles_around(direction) {
     if(pos.z >= -distz && pos.z < distz && pos.y > 0 && ((direction == -1 && pos.x < hero_position.x) || (direction == 1 && pos.x > hero_position.x))){ // check just for cars that are in the next slice, up to 7.5 deg (hero.position.z = 0 always)
       let distance = Math.sqrt(Math.pow(hero_position.x-pos.x, 2));
       if(distance <= distx){
-          move = false;
+        move = false;
+
+      }
+    }
+  });
+
+  MODELS.coinsCollisions.forEach(function (element, index) {
+    let coin = MODELS.coinsCollisions[index];
+    pos.setFromMatrixPosition(coin.matrixWorld);
+
+    let distz = 1.5;
+    let distx = 4;
+
+    if(pos.z >= -distz && pos.z < distz && pos.y > 0 && ((direction == -1 && pos.x < hero_position.x) || (direction == 1 && pos.x > hero_position.x))){ // check just for cars that are in the next slice, up to 7.5 deg (hero.position.z = 0 always)
+      let distance = Math.sqrt(Math.pow(hero_position.x-pos.x, 2));
+      if(coin.visible && distance <= distx){
+          coin.visible = false;
+          coin_collision = true;
+          bunny_score += 10;
+          document.getElementById("score").innerHTML = "score: " + bunny_score;
       }
     }
   });
