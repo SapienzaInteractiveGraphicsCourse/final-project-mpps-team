@@ -21,7 +21,7 @@ $(document).ready(function() {
 export let night = false;
 export let levelToPlay=1;
 export let id;
-export let sound_audio, sound_audio2, sound_audio3;
+export let sound_audio, sound_audio2, sound_audio3, sound_audio4;
 export let controls, camera;
 export let permessoPerMuoversi;
 let y_target = 105;
@@ -89,6 +89,7 @@ function main() {
   sound_audio = new THREE.Audio(sound_listener);
   sound_audio2 = new THREE.Audio(sound_listener);
   sound_audio3 = new THREE.Audio(sound_listener);
+  sound_audio4 = new THREE.Audio(sound_listener);
 
   var soundLoader = new THREE.AudioLoader(WORLD.loadingManager);
   soundLoader.load( 'audio/1-06EntertheGalaxy.mp3', function( buffer ) {
@@ -119,6 +120,13 @@ function main() {
       sound_audio3.setVolume(1.0);
     });
   }
+
+  var soundLoader4 = new THREE.AudioLoader(WORLD.loadingManager);
+  soundLoader4.load( 'audio/mixkit-fairy-arcade-sparkle-866.wav', function( buffer ) {
+    sound_audio4.setBuffer(buffer);
+    sound_audio4.setLoop(false);
+    sound_audio4.setVolume(1.0);
+  });
 
   function render() {
     if (resizeRendererToDisplaySize(renderer)) {

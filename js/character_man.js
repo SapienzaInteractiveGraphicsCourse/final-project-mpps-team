@@ -298,6 +298,7 @@ export function check_coins_collisions(direction) {
       let distance = Math.sqrt(Math.pow(hero_position.x-pos.x, 2) + Math.pow(pos.z, 2));
       
       if(coin.visible && distance <= 4 && !dead_baby){
+        GAME.sound_audio4.play();
         coin.visible = false;
         coin_collision = true;
         baby_score += 10;
@@ -309,6 +310,7 @@ export function check_coins_collisions(direction) {
       let distancez = Math.abs(pos.z);
       
       if(coin.visible && distancez <= 5 && !dead_baby){
+        GAME.sound_audio4.play();
         coin.visible = false;
         coin_collision = true;
         baby_score += 10;

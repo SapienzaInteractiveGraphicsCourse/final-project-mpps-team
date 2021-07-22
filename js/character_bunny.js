@@ -328,6 +328,7 @@ function check_collisions_obstacles_front() {
     if(pos.z >= -14 && pos.z < -2.5 && pos.y > 0 && hero_position.x <= pos.x + distx && hero_position.x >= pos.x - distx){ // check just for cars that are in the next slice, up to 7.5 deg (hero.position.z = 0 always)
         let distance = Math.sqrt(Math.pow(pos.z, 2));
         if(coin.visible && distance <= 5){
+          GAME.sound_audio4.play();
           coin.visible = false;
           coin_collision = true;
           bunny_score += 10;
@@ -398,6 +399,7 @@ function check_collisions_obstacles_around(direction) {
       if(coin.visible && distance <= distx){
           coin.visible = false;
           coin_collision = true;
+          GAME.sound_audio4.play();
           bunny_score += 10;
           document.getElementById("score").innerHTML = "score: " + bunny_score;
       }
