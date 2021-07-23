@@ -325,7 +325,7 @@ function check_collisions_obstacles_front() {
 
     let distx = 1;
 
-    if(pos.z >= -14 && pos.z < -2.5 && pos.y > 0 && hero_position.x <= pos.x + distx && hero_position.x >= pos.x - distx){ // check just for cars that are in the next slice, up to 7.5 deg (hero.position.z = 0 always)
+    if(pos.z >= -5 && pos.z < 0 && pos.y > 0 && hero_position.x <= pos.x + distx && hero_position.x >= pos.x - distx){ // check just for cars that are in the next slice, up to 7.5 deg (hero.position.z = 0 always)
         let distance = Math.sqrt(Math.pow(pos.z, 2));
         if(coin.visible && distance <= 5){
           GAME.sound_audio4.play();

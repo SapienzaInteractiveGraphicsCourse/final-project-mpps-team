@@ -518,10 +518,10 @@ function check_collisions_obstacles_around(direction) {
     let coin = MODELS.coinsCollisions[index];
     pos.setFromMatrixPosition(coin.matrixWorld);
 
-    let distz = 2;
+    let distz = 5;
     let distx = 5.5;
 
-    if(pos.z >= -distz && pos.z < distz && pos.y > 0 && ((direction == -1 && pos.x < hero_position.x) || (direction == 1 && pos.x > hero_position.x))){ // check just for cars that are in the next slice, up to 7.5 deg (hero.position.z = 0 always)
+    if(pos.z >= -distz && pos.z < 0 && pos.y > 0 && ((direction == -1 && pos.x < hero_position.x) || (direction == 1 && pos.x > hero_position.x))){ // check just for cars that are in the next slice, up to 7.5 deg (hero.position.z = 0 always)
       let distance = Math.sqrt(Math.pow(hero_position.x-pos.x, 2));
       if(coin.visible && distance <= distx){
           GAME.sound_audio4.play();

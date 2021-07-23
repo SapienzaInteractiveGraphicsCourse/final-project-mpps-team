@@ -553,7 +553,7 @@ function placeRandomVehicle(scene, model, deg, orientation, level, numberOfCycle
 function placeCoin(scene, model, deg) {
   const r = 100;
   const radians = 57.2958;
-  let x = getRandomInt(-24, 24);
+  let x = getRandomInt(-23, 23);
   let theta = deg / radians;
   let y = r * Math.cos(theta);
   let z = r * Math.sin(theta);
