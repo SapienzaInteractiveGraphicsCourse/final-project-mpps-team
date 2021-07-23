@@ -437,7 +437,7 @@ function check_collisions_obstacles_front() {
     if(smallObs.name == 'candyCane' || smallObs.name == 'candyCaneMint') {distx = 4; distz = 1.5;}
     if(smallObs.name == 'present') {distx = 2; distz = 6;}
 
-    if(pos.z >= -12 && pos.z < 0 && pos.y > 0 && hero_position.x <= pos.x + distx && hero_position.x >= pos.x - distx){
+    if(pos.z >= -5 && pos.z < 0 && pos.y > 0 && hero_position.x <= pos.x + distx && hero_position.x >= pos.x - distx){
         let distance = Math.sqrt(Math.pow(pos.z, 2));
         if(distance <= distz){
           move = false;
@@ -521,7 +521,7 @@ function check_collisions_obstacles_around(direction) {
     let distz = 5;
     let distx = 5.5;
 
-    if(pos.z >= -distz && pos.z < 0 && pos.y > 0 && ((direction == -1 && pos.x < hero_position.x) || (direction == 1 && pos.x > hero_position.x))){ // check just for cars that are in the next slice, up to 7.5 deg (hero.position.z = 0 always)
+    if(pos.z >= -distz && pos.z < distz && pos.y > 0 && ((direction == -1 && pos.x < hero_position.x) || (direction == 1 && pos.x > hero_position.x))){ // check just for cars that are in the next slice, up to 7.5 deg (hero.position.z = 0 always)
       let distance = Math.sqrt(Math.pow(hero_position.x-pos.x, 2));
       if(coin.visible && distance <= distx){
           GAME.sound_audio4.play();
