@@ -12,11 +12,28 @@ The proposed project is a re-implementation of the famous "Crossy Road" game. It
 - **W**, **A** and **D** to move the main character in the game (**S** is disabled because there is no going back);
 - **←**, **↑** and **→** to move the main character in the game (**↓** is disabled because there is no going back);
 
+## Trailers
+
+Level 1:
+<p align="center">
+<img src="/assets/examples/level1.gif" width="60%"/>
+</p>
+
+Level 2:
+<p align="center">
+<img src="/assets/examples/level2.gif" width="60%"/>
+</p>
+
+Level 3:
+<p align="center">
+<img src="/assets/examples/level3.gif" width="60%"/>
+</p>
+
 ## Game Link
 
 ### [Click here to play the game](https://sapienzainteractivegraphicscourse.github.io/final-project-mpps-team/main.html).
 
-### Report
+## Report
 
 For further details, the report of the project is available in this repository at [this link](https://sapienzainteractivegraphicscourse.github.io/final-project-mpps-team/IG_Report.pdf).
 
