@@ -15,19 +15,13 @@ The proposed project is a re-implementation of the famous "Crossy Road" game. It
 ## Trailers
 
 Level 1:
-<p align="center">
 <img src="/assets/examples/level1.gif" width="60%"/>
-</p>
 
 Level 2:
-<p align="center">
 <img src="/assets/examples/level2.gif" width="60%"/>
-</p>
 
 Level 3:
-<p align="center">
 <img src="/assets/examples/level3.gif" width="60%"/>
-</p>
 
 ## Game Link
 
